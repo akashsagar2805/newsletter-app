@@ -23,7 +23,7 @@ class ProcessScheduledNewsletters extends Command
             $users = \App\Models\User::all();
             foreach ($users as $index => $user) {
                 SendNewsletterJob::dispatch($newsletter, $user)
-                    ->delay(now()->addSeconds(5 * $index));
+                    ->delay(now()->addMinutes(5 * $index));
             }
 
 
