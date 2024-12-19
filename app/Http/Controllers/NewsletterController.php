@@ -44,7 +44,7 @@ class NewsletterController extends Controller
 
         $users = User::whereDoesntHave('newsletters', function ($query) use ($newsletter) {
             $query->where('newsletter_id', $newsletter->id)
-                ->where('is_sent', true);
+                  ->where('is_sent', true);
         })->get();
 
         foreach ($users as $user) {
@@ -53,12 +53,8 @@ class NewsletterController extends Controller
             ]);
         }
 
-        foreach ($users as $index => $user) {
-            SendNewsletterJob::dispatch($newsletter, $user)
-                ->delay(now()->addMinutes($index * 5));
-        }
-
         return redirect()->route('newsletters.index')
             ->with('success', 'Newsletter has been started successfully!');
     }
+
 }
